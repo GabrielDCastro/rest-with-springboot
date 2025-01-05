@@ -30,8 +30,9 @@ public class PersonServices {
         return repository.findAll();
     }
 
-    public Person create(Person person){
-        return repository.save(person);
+    public void create(Person person){
+        logger.info("Creating new person");
+        repository.save(person);
     }
 
     public Person update(Person person){
