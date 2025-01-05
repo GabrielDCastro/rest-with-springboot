@@ -51,8 +51,16 @@ public class PersonController {
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person update(@RequestBody Person person){
-        return service.update(person);
+    public ResponseEntity<PersonRecords> update(@RequestBody PersonRecords person){
+        Person personObj = new Person(
+                person.id(),
+                person.firstName(),
+                person.lastName(),
+                person.address(),
+                person.gender()
+        );
+        service.update(personObj);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping(value = "/{id}")
