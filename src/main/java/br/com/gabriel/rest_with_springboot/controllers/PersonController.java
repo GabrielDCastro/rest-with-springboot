@@ -24,7 +24,7 @@ public class PersonController {
         return ResponseEntity.ok().body(new PersonRecords(person.getId(), person.getFirstName(), person.getLastName(), person.getAddress(), person.getGender()));
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<PersonRecords>> findAll(){
         List<Person> persons = service.findAll();
         List<PersonRecords> dtos = persons.stream().map(person -> new PersonRecords(
