@@ -30,12 +30,13 @@ public class PersonServices {
         return repository.findAll();
     }
 
-    public void create(Person person){
+    public Person create(Person person){
         logger.info("Creating new person");
         repository.save(person);
+        return person;
     }
 
-    public void update(Person person){
+    public Person update(Person person){
 
         Person entity = repository.findById(person.getId()).orElseThrow(() -> new ResourceAccessException("No records found for this ID"));
 
@@ -45,6 +46,7 @@ public class PersonServices {
         entity.setGender(person.getGender());
 
         repository.save(person);
+        return entity;
     }
 
     public void delete(Long id){
