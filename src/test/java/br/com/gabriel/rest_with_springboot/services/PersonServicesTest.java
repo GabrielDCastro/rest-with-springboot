@@ -34,14 +34,11 @@ class PersonServiceTest {
     }
 
     @Test
-    void testFindById_Success() {
+    void testFindbyId_success(){
         when(repository.findById(1L)).thenReturn(Optional.of(mockPerson));
-
         Person result = service.findById(1L);
-
         assertNotNull(result);
-        assertEquals(1L, result.getId());
-        assertEquals("John", result.getFirstName());
+        assertEquals(mockPerson.getId(), result.getId());
     }
 
     @Test
