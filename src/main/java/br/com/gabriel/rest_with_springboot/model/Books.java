@@ -14,27 +14,20 @@ public class Books implements Serializable {
 
     @Column(name = "author")
     private String author;
-    @Column(name = "longtext", nullable = false)
-    private String longtext;
     @Column(name = "launch_date", nullable = false)
     private String launch_date;
-    @Column(name = "datetime", nullable = false)
-    private String datetime;
     @Column(name = "price", nullable = false)
     private String price;
     @Column(name = "title", nullable = false)
     private String title;
 
-    public Books(Long id) {
-        this.id = id;
+    public Books() {
     }
 
-    public Books(Long id, String author, String longtext, String launch_date, String datetime, String price, String title) {
+    public Books(Long id, String author, String launch_date, String price, String title) {
         this.id = id;
         this.author = author;
-        this.longtext = longtext;
         this.launch_date = launch_date;
-        this.datetime = datetime;
         this.price = price;
         this.title = title;
     }
@@ -55,28 +48,12 @@ public class Books implements Serializable {
         this.author = author;
     }
 
-    public String getLongtext() {
-        return longtext;
-    }
-
-    public void setLongtext(String longtext) {
-        this.longtext = longtext;
-    }
-
     public String getLaunch_date() {
         return launch_date;
     }
 
     public void setLaunch_date(String launch_date) {
         this.launch_date = launch_date;
-    }
-
-    public String getDatetime() {
-        return datetime;
-    }
-
-    public void setDatetime(String datetime) {
-        this.datetime = datetime;
     }
 
     public String getPrice() {
