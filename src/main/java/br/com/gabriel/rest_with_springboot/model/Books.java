@@ -12,9 +12,10 @@ public class Books implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "author")
+    @Column(name = "author", nullable = false)
     private String author;
     @Column(name = "launch_date", nullable = false)
+    @Temporal(TemporalType.DATE)
     private String launch_date;
     @Column(name = "price", nullable = false)
     private String price;
