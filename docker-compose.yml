@@ -1,0 +1,38 @@
+version: '3.4'
+services:
+  db:
+    image: mysql:9.1.0
+    restart: always
+    environment:
+      TZ: America/Sao_Paulo
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: rest_with_spring
+    ports:
+      - "3308:3306"
+    expose:
+      - 3306
+    networks:
+      - gabriel-network
+
+  rest-with-sring-gabriel:
+    image: rest-with-sring-gabriel
+    build: .
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      TZ: America/Sao_Paulo
+      SPRING.DATASOURCE.URL: jdbc:mysql://db:3306/rest_with_spring?useTimezone=true&serverTimezone=UTC
+      SPRING.DATASOURCE.USERNAME: root
+      SPRING.DATASOURCE.PASSWORD: admin
+    command: ["java", "-jar", "/app/app.jar"]
+    depends_on:
+      - db
+    networks:
+      - gabriel-network
+
+networks:
+  gabriel-network:
+    driver: bridge
