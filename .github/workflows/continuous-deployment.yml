@@ -19,8 +19,21 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-    - uses: actions/setup-java@v4
+    - name: Setup Java
+      uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
+
+    - name: Build Application .jar
+      run: mvn clean package
+
+    - name: Docker Compose Build
+      run: docker compose up --build
+
+    - name: Push to Dockerhub Container Registry
+      run: |
+        docker tag rest-with-sring-gabriel ${{ secrets.DOCKER_USERNAME }}/rest-with-sring-gabriel
+        docker push ${{ secrets.DOCKER_USERNAME }}/rest-with-sring-gabriel
+
