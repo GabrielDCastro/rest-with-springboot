@@ -11,29 +11,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Login to Docker Hub
-      uses: actions/checkout@v4
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
 
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-        cache: maven
+      - name: Build Application .jar
+        run: mvn clean package
 
-    - name: Build Application .jar
-      run: mvn clean package
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-    - name: Docker Compose Build
-      run: docker compose up --build
+      - name: Build Docker Image
+        run: docker build -t rest-with-sring-gabriel .
 
-    - name: Push to Dockerhub Container Registry
-      run: |
-        docker tag rest-with-sring-gabriel ${{ secrets.DOCKER_USERNAME }}/rest-with-sring-gabriel
-        docker push ${{ secrets.DOCKER_USERNAME }}/rest-with-sring-gabriel
-
+      - name: Push to Dockerhub Container Registry
+        run: |
+          docker tag rest-with-sring-gabriel ${{ secrets.DOCKER_USERNAME }}/rest-with-sring-gabriel
+          docker push ${{ secrets.DOCKER_USERNAME }}/rest-with-sring-gabriel
