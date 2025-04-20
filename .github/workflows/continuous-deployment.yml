@@ -2,17 +2,25 @@ name: Continous Integration and Delivery with Github Actions
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "develop" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "develop" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+    - name: Login to Docker Hub
+      uses: actions/checkout@v4
+      with:
+        username: ${{ secret.DOCKER_USERNAME }}
+        password: ${{ secret.DOCKER_ACCESS_TOKEN }}
+
+    - uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
